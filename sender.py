@@ -26,13 +26,14 @@ def send_message(message, recipient):
     encrypted_message = encrypt_message(message, key)
     
     # In a real scenario, you would send this to a cloud service
-    with open('encrypted_message.txt', 'wb') as f:
-        f.write(encrypted_message)
+    with open('encrypted_message.txt', 'ab') as f:
+        f.write(encrypted_message + b'\n')
 
     print(f"Message sent to {recipient}")
 
 if __name__ == "__main__":
     recipient = "receiver@example.com"
-    message = "Hello, this is a secure message."
     generate_key()
+
+    message = "Hello, this is a secure message."
     send_message(message, recipient)
