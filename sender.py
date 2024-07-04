@@ -1,39 +1,45 @@
-# this is the sender file
+import boto3
 
-from cryptography.fernet import Fernet
-import json
+def encrypt_message(plaintext, key_id):
+    # Create a KMS client
+    kms_client = boto3.client('kms', region_name='us-east-1')
 
-# Generate and save a key (this should be done only once)
-def generate_key():
-    key = Fernet.generate_key()
+    # Encrypt the plaintext
+    response = kms_client.encrypt(
+        KeyId=key_id,
+        Plaintext=plaintext,
+        EncryptionAlgorithm='RSAES_OAEP_SHA_1'
+    )
 
-    # Save the key to a file named 'key.key'
-    with open('key.key', 'wb') as key_file:
-        key_file.write(key)
+    # Get the encrypted data
+    ciphertext = response['CiphertextBlob']
+    return ciphertext
 
-    print("Encryption key generated and saved to key.key")
+def decrypt_message(ciphertext, key_arn):
+    # Create a KMS client
+    kms_client = boto3.client('kms', region_name='us-east-1')
 
-def load_key():
-    return open('key.key', 'rb').read()
+    # Decrypt the ciphertext
+    response = kms_client.decrypt(
+        # CiphertextBlob=ciphertext
+        KeyId=key_arn,
+        CiphertextBlob=ciphertext,
+        EncryptionAlgorithm='RSAES_OAEP_SHA_1'
+    )
 
-def encrypt_message(message, key):
-    fernet = Fernet(key)
-    encrypted_message = fernet.encrypt(message.encode())
-    return encrypted_message
+    # Get the plaintext
+    plaintext = response['Plaintext']
+    return plaintext
 
-def send_message(message, recipient):
-    key = load_key()
-    encrypted_message = encrypt_message(message, key)
-    
-    # In a real scenario, you would send this to a cloud service
-    with open('encrypted_message.txt', 'ab') as f:
-        f.write(encrypted_message + b'\n')
+# Your KMS key ARN
+# key_arn = 'arn:aws:kms:us-east-1:058264392865:key/a013113a-0f7d-4a02-a7f4-0d973814dbca'
+key_arn = 'arn:aws:kms:us-east-1:058264392865:alias/kms-user-key'
 
-    print(f"Message sent to {recipient}")
+# Encrypt a message
+plaintext_message = "Hello, this is a secure message."
+ciphertext = encrypt_message(plaintext_message, key_arn)
+print(f"Encrypted message: {ciphertext}")
 
-if __name__ == "__main__":
-    recipient = "receiver@example.com"
-    generate_key()
-
-    message = "Hello, this is a secure message."
-    send_message(message, recipient)
+# Decrypt the message
+decrypted_message = decrypt_message(ciphertext, key_arn)
+print(f"Decrypted message: {decrypted_message.decode('utf-8')}")
