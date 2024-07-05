@@ -1,6 +1,5 @@
-from encryption import encrypt_message
-from decryption import decrypt_message
-from create_client import new_client, User
+from encrypt_decrypt import encrypt_message, decrypt_message
+from create_client import new_client
 
 alias_name = "User-13-class"
 alias_password = "password"
