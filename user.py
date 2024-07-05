@@ -19,3 +19,6 @@ class User:
     
     def get_alias_kms_arn(self):
         return self.kms_arn
+    
+    def get_encrypted_password(self):
+        return self.password_hash
