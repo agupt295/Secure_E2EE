@@ -17,4 +17,4 @@ Asymmetric encryption involves two keys: a public key and a private key. The pub
 
 In this implementation, an additional layer of security is added by introducing password protection. Before a message can be decrypted with the user's private key, the receiver must enter a password. This ensures that even if the private key is compromised, the message cannot be decrypted without the correct password.
 
-To implement this functionality, the `bcrypt` was used.
+To implement this functionality, the `bcrypt` library was used.
