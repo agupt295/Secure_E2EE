@@ -10,7 +10,7 @@ def new_client(alias_name, password):
         CustomerMasterKeySpec='RSA_2048',
         KeyUsage='ENCRYPT_DECRYPT',
         Origin='AWS_KMS',
-        Description=f'New User: {alias_name}'
+        Description=f'User: {alias_name}'
     )
 
     key_arn = response['KeyMetadata']['Arn']
