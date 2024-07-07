@@ -8,13 +8,9 @@ Asymmetric encryption involves two keys: a public key and a private key. The pub
 1. **Public Key**: This key is shared publicly and can be used by anyone to encrypt data.
 2. **Private Key**: This key is kept secret and is used to decrypt data encrypted with the corresponding public key.
 
-### How It Works in the Code
 
-- **Encryption**: The `encrypt_message` function takes plaintext data and a `key_id` (which is the ID of the public key in AWS KMS). It uses the `boto3` KMS client to encrypt the data with the specified key and returns the encrypted data (ciphertext).
-- **Decryption**: The `decrypt_message` function takes the encrypted data (ciphertext) and a `key_arn` (which is the ARN of the private key in AWS KMS). It uses the `boto3` KMS client to decrypt the data with the specified key and returns the original plaintext.
+### The New Method: An Added Layer of Security
 
-### An Added Layer of Security
+The new method developed utilizes Amazon Key Management Service (KMS) to manage public and private keys. By leveraging Amazon KMS's policy management features, we can authorize users based on specific requirements, enhancing the overall security framework. After proper authorization, as an additional layer of protection is introduced through an extra key, functioning similarly to a symmetric key, the users must enter a password before they access their private key to decrypt the messages. This approach ensures that even if the private key is compromised, the security of the data remains intact.
 
-In this implementation, an additional layer of security is added by introducing password protection. Before a message can be decrypted with the user's private key, the receiver must enter a password. This ensures that even if the private key is compromised, the message cannot be decrypted without the correct password.
-
-To implement this functionality, the `bcrypt` library was used.
+![Architecture Image](architecture.jpg)
