@@ -13,6 +13,8 @@ Asymmetric encryption involves two keys: a public key and a private key. The pub
 
 The new method developed utilizes Amazon Key Management Service (KMS) to manage public and private keys. By leveraging Amazon KMS's policy management features, we can authorize users based on specific requirements, enhancing the overall security framework. After proper authorization, as an additional layer of protection is introduced through an extra key, functioning similarly to a symmetric key, the users must enter a password before they access their private key to decrypt the messages. This approach ensures that even if the private key is compromised, the security of the data remains intact.
 
+*Old Architecture*
 ![Old Architecture](image.png)
 
-![Architecture Image](architecture.jpg)
+*New Architecture*
+![New Architecture](architecture.png)
